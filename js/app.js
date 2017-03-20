@@ -2,66 +2,83 @@
 
     'use strict';
 
-    angular.module('ShoppingListApp', [])
-        .controller('ShoppingListBuyController', ShoppingListBuyController)
-        .controller('ShoppingListDoneController', ShoppingListDoneController)
-        .service('ShoppingListService', ShoppingListService);
+    angular.module('NarrowItDownApp', [])
+        .controller('NarrowItDownController', NarrowItDownController)
+        .service('MenuSearchService', MenuSearchService).constant('ApiBasePath', "https://davids-restaurant.herokuapp.com")
+        .directive('foundItems', FoundItems);
 
-    ShoppingListBuyController.$inject = ['ShoppingListService'];
-    ShoppingListDoneController.$inject = ['ShoppingListService'];
-
-
-    function ShoppingListBuyController(ShoppingListService) {
-
-        var shoppingList = this;
-
-        shoppingList.listIsEmpty = false;
-
-        shoppingList.items = ShoppingListService.getToDoItems();
-
-
-        shoppingList.removeItem = function (itemIndex) {
-            ShoppingListService.removeItem(itemIndex);
-            if (shoppingList.items.length === 0) {
-                shoppingList.listIsEmpty = true;
-            }
+    function FoundItems() {
+        var ddo = {
+            templateUrl: 'foundItems.html',
+            scope: {
+                foundItems: '<menu.found',
+                onRemove: '&onRemove'
+            },
+            controller: NarrowItDownController,
+            controllerAs: 'menu',
+            bindToController: true
         };
 
+        return ddo;
     }
 
-    function ShoppingListDoneController(ShoppingListService) {
 
-        var doneList = this;
-        doneList.listIsEmpty = true;
 
-        doneList.items = ShoppingListService.getDoneItems();
+    NarrowItDownController.$inject = ['MenuSearchService'];
+
+
+    function NarrowItDownController(MenuSearchService) {
+
+        var menu = this;
+        menu.searchTerm = '';
+
+        menu.search = function () {
+
+            var promise = MenuSearchService.getMatchedMenuItems(menu.searchTerm);
+
+            promise.then(function (response) {
+                menu.found = response;
+            }).catch(function (error) {
+                console.log("Something went terribly wrong.");
+            });
+
+            return menu.found;
+        };
+
+        menu.onRemove = function (index) {
+            menu.found.splice(index, 1);
+        };
+
+
     }
 
-    function ShoppingListService() {
+    MenuSearchService.$inject = ['$http', 'ApiBasePath'];
+    function MenuSearchService($http, ApiBasePath) {
         var service = this;
 
-        // List of shopping items
-        var todo = [
-            { name: "cookies", quantity: 10 },
-            { name: "soda", quantity: 1 },
-            { name: "cake", quantity: 3 },
-            { name: "spagetti", quantity: 5 },
-            { name: "avocado", quantity: 10 }
-        ];
+        service.getMatchedMenuItems = function (searchTerm) {
+            return $http({
+                method: "GET",
+                url: (ApiBasePath + "/menu_items.json")
+            }).then(function (response) {
 
-        var done = [];
+                var foundItems = [];
+                var menuItems = response.data.menu_items;
 
-        service.removeItem = function (itemIdex) {
-            var deleted = todo.splice(itemIdex, 1);
-            Array.prototype.push.apply(done, deleted);
-        };
+                for (var i = 0; i < menuItems.length; i++) {
 
-        service.getToDoItems = function () {
-            return todo;
-        };
+                    if (menuItems[i].description.indexOf(searchTerm) > -1) {
+                        foundItems.push(menuItems[i]);
+                    }
 
-        service.getDoneItems = function () {
-            return done;
+                }
+
+                console.log('menu found', foundItems);
+                return foundItems;
+            }).catch(function (error) {
+                console.log(error);
+            });
+
         };
     }
 
