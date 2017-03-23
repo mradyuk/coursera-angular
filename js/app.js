@@ -4,28 +4,32 @@
 
     angular.module('NarrowItDownApp', [])
         .controller('NarrowItDownController', NarrowItDownController)
-        .service('MenuSearchService', MenuSearchService).constant('ApiBasePath', "https://davids-restaurant.herokuapp.com")
-        .directive('foundItems', FoundItems);
+        .service('MenuSearchService', MenuSearchService)
+        .directive('foundItems', FoundItemsDirective)
+        .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
 
-    function FoundItems() {
+
+    function FoundItemsDirective() {
         var ddo = {
             templateUrl: 'foundItems.html',
             scope: {
-                foundItems: '<menu.found',
-                onRemove: '&onRemove'
+                items: '<',
+                onRemove: '&'
             },
-            controller: NarrowItDownController,
+            controller: NarrowItDownDirectiveController,
             controllerAs: 'menu',
             bindToController: true
         };
-
         return ddo;
     }
 
+    function NarrowItDownDirectiveController() {
+
+        var menu = this;
+    }
 
 
     NarrowItDownController.$inject = ['MenuSearchService'];
-
 
     function NarrowItDownController(MenuSearchService) {
 
@@ -37,19 +41,16 @@
             var promise = MenuSearchService.getMatchedMenuItems(menu.searchTerm);
 
             promise.then(function (response) {
-                menu.found = response;
+                menu.items = response;
             }).catch(function (error) {
                 console.log("Something went terribly wrong.");
             });
-
-            return menu.found;
+            return menu.items;
         };
 
-        menu.onRemove = function (index) {
-            menu.found.splice(index, 1);
+        menu.removeItem = function (index) {
+            menu.items.splice(index, 1);
         };
-
-
     }
 
     MenuSearchService.$inject = ['$http', 'ApiBasePath'];
@@ -70,7 +71,6 @@
                     if (menuItems[i].description.indexOf(searchTerm) > -1) {
                         foundItems.push(menuItems[i]);
                     }
-
                 }
 
                 console.log('menu found', foundItems);
@@ -81,6 +81,5 @@
 
         };
     }
-
 
 })();
