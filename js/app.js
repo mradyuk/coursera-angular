@@ -66,13 +66,15 @@
                 var foundItems = [];
                 var menuItems = response.data.menu_items;
 
+                if(searchTerm !== ''){
+
                 for (var i = 0; i < menuItems.length; i++) {
 
                     if (menuItems[i].description.indexOf(searchTerm) > -1) {
                         foundItems.push(menuItems[i]);
                     }
                 }
-
+                }
                 console.log('menu found', foundItems);
                 return foundItems;
             }).catch(function (error) {

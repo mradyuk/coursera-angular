@@ -9,6 +9,13 @@ input[type="text"] {
   float: left;
   margin-left: 10px;
 }
+.clear{
+  clear: both;
+}
+.error{
+  color: red;
+  font-size: 20px;
+}
 .loader {
   display: none;
   margin-left: 5px;
@@ -51,12 +58,6 @@ input[type="text"] {
   }
 }
 
-
-#second {
-    float: left;
-    clear: left;    
-    margin: 5px;
-}
 
 table, th , td {
   border: 1px solid grey;
