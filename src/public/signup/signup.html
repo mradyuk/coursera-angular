@@ -1,76 +1,77 @@
-<div class="form-group col-xs-3" ng-controller="RegistrationController as reg">
-    <fieldset>
-        <legend>Registration</legend>
-    <form name="signupForm" novalidate>
-        <input name="firstname"
-               ng-model="reg.user.firstname"
-               placeholder="Enter first name"
-               type="text"
-               class="form-control"
-               required>
-        <span ng-if="signupForm.firstname.$error.required">
+<div class="container">
+
+    <div class="form-group col-xs-3" ng-controller="RegistrationController as reg">
+        <fieldset>
+            <legend>Registration</legend>
+            <form name="signupForm" novalidate>
+                <input name="firstname"
+                       ng-model="reg.user.firstname"
+                       placeholder="Enter first name"
+                       type="text"
+                       class="form-control"
+                       required>
+                <span ng-if="signupForm.firstname.$error.required">
            First name is required
           </span>
-        <br>
-        <input name="lastname"
-               ng-model="reg.user.lastname"
-               placeholder="Enter last name"
-               type="text"
-               class="form-control"
-               required>
-        <span ng-if="signupForm.lastname.$error.required">
+                <br>
+                <input name="lastname"
+                       ng-model="reg.user.lastname"
+                       placeholder="Enter last name"
+                       type="text"
+                       class="form-control"
+                       required>
+                <span ng-if="signupForm.lastname.$error.required">
            Last name is required
           </span>
-        <br>
-        <input name="email"
-               ng-model="reg.user.email"
-               type="email"
-               placeholder="Enter email"
-               class="form-control"
-               required>
-        <span ng-if="signupForm.email.$invalid && signupForm.email.$touched">
+                <br>
+                <input name="email"
+                       ng-model="reg.user.email"
+                       type="email"
+                       placeholder="Enter email"
+                       class="form-control"
+                       required>
+                <span ng-if="signupForm.email.$invalid && signupForm.email.$touched">
             Must be a valid email address: handle@domain format
           </span>
-        <br>
-        <input name="phone"
-               type="text"
-               ng-model="reg.user.phone"
-               placeholder="Phone ##-###-##-##"
-               pattern="(\d{2})-(\d{3})-(\d{2})-(\d{2})"
-               class="form-control"
-               required>
-        <span ng-if="signupForm.phone.$invalid && signupForm.phone.$touched">
-            Phone must be in the format ###-###-####.
+                <br>
+                <input name="phone"
+                       type="text"
+                       ng-model="reg.user.phone"
+                       placeholder="Phone ##-###-##-##"
+                       pattern="(\d{2})-(\d{3})-(\d{2})-(\d{2})"
+                       class="form-control"
+                       required>
+                <span ng-if="signupForm.phone.$invalid && signupForm.phone.$touched">
+            Phone must be in the format ##-###-##-##.
           </span>
-        <br>
-        <input name="menuNumber"
-               ng-model="reg.user.menuNumber"
-               placeholder="Enter favourite menu"
-               type="text"
-               class="form-control"
-               required>
-        <br>
+                <br>
+                <input name="menuNumber"
+                       ng-model="reg.user.menuNumber"
+                       placeholder="Enter favourite menu"
+                       type="text"
+                       class="form-control"
+                       required>
+                <br>
 
-        <button
-                ng-disabled="signupForm.$invalid"
-                ng-click="reg.submit()">Submit
-        </button>
+                <button
+                        ng-disabled="signupForm.$invalid"
+                        ng-click="reg.submit()">Submit
+                </button>
 
-    </form>
-    </fieldset>
+            </form>
+        </fieldset>
 
-    <div id="info" ng-if="reg.completed">
-        Welcome, {{ reg.user.firstname}}  <br>
-        Your information has been saved.
+        <div id="info" ng-if="reg.completed">
+            Welcome, {{ reg.user.firstname}} <br>
+            Your information has been saved.
+        </div>
+
+        <div ng-show="reg.menuNotFound">
+            No such menu number exists
+        </div>
+
+
     </div>
-
-    <div ng-show="reg.menuNotFound">
-        No such menu number exists
-    </div>
-
-
-
-
 
 
 </div>

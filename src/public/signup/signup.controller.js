@@ -25,6 +25,12 @@
                     $rootScope.signupData.email = reg.user.email;
                     $rootScope.signupData.phone = reg.user.phone;
 
+                   /* SignupDataService.getImage(result.short_name).then(function (img) {
+                        console.log("img", img);
+                        $rootScope.signupData.menu.img = img;
+
+                    });*/
+
                     reg.completed = true;
                     reg.menuNotFound  =false;
                 }

@@ -29,6 +29,7 @@
                 url: (ApiBasePath + "/menu_items/" + service.signupData.menuNumber + ".json ")
             }).then(function (response) {
                 var menu = response.data;
+
                 console.log('categories found', menu);
                 return menu;
             }).catch(function (error) {
@@ -36,6 +37,21 @@
             });
 
         };
+
+        service.getImage = function(short_name){
+
+            return $http({
+                method: "GET",
+                url: (ApiBasePath + '/images/' + short_name + '.jpg')
+            }).then(function (response) {
+                var img = response.data;
+                return img;
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+
+        }
 
 
     }
