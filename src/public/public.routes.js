@@ -16,6 +16,10 @@
                 url: '/signup',
                 templateUrl: "src/public/signup/signup.html"
             })
+            .state('public.myinfo', {
+                url: '/myinfo',
+                templateUrl: "src/public/myinfo/myinfo.html"
+            })
             .state('public', {
                 absract: true,
                 templateUrl: 'src/public/public.html'

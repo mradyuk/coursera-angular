@@ -32,7 +32,7 @@
             Must be a valid email address: handle@domain format
           </span>
         <br>
-        <!--input name="phone"
+        <input name="phone"
                type="text"
                ng-model="reg.user.phone"
                placeholder="Phone ##-###-##-##"
@@ -42,7 +42,7 @@
         <span ng-if="signupForm.phone.$invalid && signupForm.phone.$touched">
             Phone must be in the format ###-###-####.
           </span>
-        <br-->
+        <br>
         <input name="menuNumber"
                ng-model="reg.user.menuNumber"
                placeholder="Enter favourite menu"
@@ -64,7 +64,7 @@
         Your information has been saved.
     </div>
 
-    <div id="info" ng-show="reg.menuNotFound">
+    <div ng-show="reg.menuNotFound">
         No such menu number exists
     </div>
 

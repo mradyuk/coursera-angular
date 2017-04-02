@@ -1,0 +1,16 @@
+<div class="form-group col-xs-3" ng-controller="MyInfoController as info">
+
+    <div id="info" ng-if="info.registered">
+        Username: {{info.signupData.firstname}} , {{info.signupData.lastname}} <br>
+        Email: {{info.signupData.email}} <br>
+        Phone: {{info.signupData.phone}} <br>
+        Menu: {{info.signupData.menu.name}} <br>
+        {{ info.signupData.menu.description }}
+
+    </div>
+
+    <div ng-hide="info.registered">
+        Please, register first
+
+    </div>
+</div>
